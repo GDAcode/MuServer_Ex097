@@ -18,6 +18,7 @@ struct NPC_MOVE_INFO
 	int AccountLevel;
 	int PkMove;
 	int IsResetNpc; // Indica se o NPC é um NPC de reset
+	int	IsPKClearNpc; // Indica se o NPC é um NPC de PkClear
 };
 
 class CCustomNpcMove
@@ -31,6 +32,8 @@ public:
 	void Load(char* path);
 
 	void ProcessNpcReset(LPOBJ lpObj, int MonsterClass);
+
+	void ProcessNpcPkClear(LPOBJ lpObj, int MonsterClass);
 
 	bool GetNpcMove(LPOBJ lpObj, int MonsterClass, int Map, int X, int Y);
 

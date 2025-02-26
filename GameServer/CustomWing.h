@@ -1,6 +1,6 @@
 #pragma once
 
-#define MAX_CUSTOM_WING 7
+#define MAX_CUSTOM_WING 8
 
 struct CUSTOM_WING_INFO
 {

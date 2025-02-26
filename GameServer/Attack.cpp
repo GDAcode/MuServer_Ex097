@@ -461,10 +461,9 @@ bool CAttack::Attack(LPOBJ lpObj, LPOBJ lpTarget, CSkill* lpSkill, bool send, in
 
 	return true;
 }
-
 bool CAttack::DecreaseArrow(LPOBJ lpObj)
 {
-	if (lpObj->Type != OBJECT_USER || lpObj->Class != CLASS_FE)
+	/*if (lpObj->Type != OBJECT_USER || lpObj->Class != CLASS_FE)
 	{
 		return true;
 	}
@@ -491,10 +490,61 @@ bool CAttack::DecreaseArrow(LPOBJ lpObj)
 		{
 			gItemManager.DecreaseItemDur(lpObj, 0, 1);
 		}
-	}
+	}*/
 
 	return true;
 }
+//Versao Flechas infinitas teste desativado por enquanto!!!
+//bool CAttack::DecreaseArrow(LPOBJ lpObj)
+//{
+//	// Verifica se o objeto é um jogador do tipo Fairy Elf
+//	if (lpObj->Type != OBJECT_USER || lpObj->Class != CLASS_FE)
+//	{
+//		return true;
+//	}
+//
+//	// Verifica se a mão direita (slot 0) possui um arco equipado
+//	if (lpObj->Inventory[0].m_Index >= GET_ITEM(4, 0) &&
+//		lpObj->Inventory[0].m_Index < GET_ITEM(5, 0) &&
+//		lpObj->Inventory[0].m_Index != GET_ITEM(4, 15) &&
+//		lpObj->Inventory[0].m_Slot == 0)
+//	{
+//		// Se um arco está equipado, verifica se há flechas na mão esquerda (slot 1)
+//		if (lpObj->Inventory[1].m_Index != GET_ITEM(4, 7))
+//		{
+//			// Se não houver flechas, retorna falso para impedir o ataque
+//			return false;
+//		}
+//		else
+//		{
+//			// Se houver flechas, não decrementa a durabilidade (flechas infinitas)
+//			// gItemManager.DecreaseItemDur(lpObj, 1, 1); // Linha comentada para não diminuir a durabilidade
+//		}
+//	}
+//
+//	// Verifica se a mão esquerda (slot 1) possui uma besta equipada
+//	if (lpObj->Inventory[1].m_Index >= GET_ITEM(4, 0) &&
+//		lpObj->Inventory[1].m_Index < GET_ITEM(5, 0) &&
+//		lpObj->Inventory[1].m_Index != GET_ITEM(4, 7) &&
+//		lpObj->Inventory[1].m_Slot == 1)
+//	{
+//		// Se uma besta está equipada, verifica se há virotes na mão direita (slot 0)
+//		if (lpObj->Inventory[0].m_Index != GET_ITEM(4, 15))
+//		{
+//			// Se não houver virotes, retorna falso para impedir o ataque
+//			return false;
+//		}
+//		else
+//		{
+//			// Se houver virotes, não decrementa a durabilidade (virotes infinitos)
+//			// gItemManager.DecreaseItemDur(lpObj, 0, 1); // Linha comentada para não diminuir a durabilidade
+//		}
+//	}
+//
+//	// Se todas as verificações passaram, permite o ataque
+//	return true;
+//}
+
 
 void CAttack::WingSprite(LPOBJ lpObj, LPOBJ lpTarget, int* damage)
 {

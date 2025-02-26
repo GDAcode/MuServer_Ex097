@@ -91,6 +91,8 @@ void CCustomNpcMove::Load(char* path)
 			info.PkMove = lpReadScript->GetAsNumber();
 
 			info.IsResetNpc = lpReadScript->GetAsNumber(); // Lendo o valor do .txt
+
+			info.IsPKClearNpc = lpReadScript->GetAsNumber(); // Lendo o valor do .txt
 			
 			this->m_CustomNpcMove.insert(std::pair<int, NPC_MOVE_INFO>(Index, info));
 
@@ -169,6 +171,43 @@ void CCustomNpcMove::ProcessNpcReset(LPOBJ lpObj, int MonsterClass)
 		}
 	}
 }
+void CCustomNpcMove::ProcessNpcPkClear(LPOBJ lpObj, int MonsterClass)
+{
+	for (auto it = this->m_CustomNpcMove.begin(); it != this->m_CustomNpcMove.end(); it++)
+	{
+		auto& npc = it->second;
+
+		// Verifica se o NPC é do tipo PKClear (similar ao IsNPCReset, mas para PKClear)
+		if (npc.MonsterClass == MonsterClass && npc.IsPKClearNpc == 1)
+		{
+			// Validações básicas de conexão e estado do jogador
+			if (lpObj->Connected < OBJECT_ONLINE)
+			{
+				return;
+			}
+			if (lpObj->Interface.use != 0 || lpObj->State == OBJECT_DELCMD || lpObj->DieRegen != 0 || lpObj->Teleport != 0)
+			{
+				gNotice.GCNoticeSend(lpObj->Index, 1, gMessage.GetTextMessage(75, lpObj->Lang));
+				return;
+			}
+
+			// Validação do status PK utilizando a mesma lógica do comando
+			if (lpObj->PKLevel <= PKLVL_WARNING)
+			{
+				gNotice.GCNoticeSend(lpObj->Index, 1, gMessage.GetTextMessage(91, lpObj->Lang));
+				return;
+			}
+
+			// Se passou nas validações, chama a função que já faz a limpeza do PK
+			gCommandManager.CommandPKClear(lpObj, "");
+
+			return;
+		}
+	}
+}
+
+
+
 
 bool CCustomNpcMove::GetNpcMove(LPOBJ lpObj, int MonsterClass, int Map, int X, int Y)
 {
@@ -176,6 +215,12 @@ bool CCustomNpcMove::GetNpcMove(LPOBJ lpObj, int MonsterClass, int Map, int X, i
 	{
 		if (it->second.MonsterClass == MonsterClass && it->second.Map == Map && it->second.X == X && it->second.Y == Y)
 		{
+			// Se for um NPC de PkClear, executa a função de PkClear
+			if (it->second.IsPKClearNpc == 1)
+			{
+				this->ProcessNpcPkClear(lpObj, MonsterClass);
+				return 1;
+			}
 			// Se for um NPC de Reset, executa a função de reset
 			if (it->second.IsResetNpc == 1)
 			{

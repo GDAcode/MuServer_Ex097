@@ -379,5 +379,4 @@ public:
 	long m_AnnounceChaosMix;
 	char m_AnnounceChaosMixText[50];
 };
-
 extern CServerInfo gServerInfo;
