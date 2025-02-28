@@ -7,6 +7,7 @@
 #include "CustomNpcMove.h"
 #include "CustomPkFree.h"
 #include "CustomSafeZone.h"
+#include "CustomPet.h"
 #include "CustomWing.h"
 #include "DefaultClassInfo.h"
 #include "DevilSquare.h"
@@ -236,6 +237,8 @@ void CServerInfo::ReadItemInfo()
 	gItemValue.Load(gPath.GetFullPath("Item\\ItemValue.txt"));
 
 	gCustomWing.Load(gPath.GetFullPath("Item\\CustomWing.txt"));
+
+	gCustomPet.Load(gPath.GetFullPath("Item\\CustomPet.txt"));
 
 	for (int n = OBJECT_START_USER; n < MAX_OBJECT; n++)
 	{
